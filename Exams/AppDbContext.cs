@@ -12,7 +12,5 @@ namespace Exams
         public AppDbContext(DbContextOptions options) : base(options)
         {
         }
-
-        //public DbSet<Question> Questions { get; set; }
     }
 }
