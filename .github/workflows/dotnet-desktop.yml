@@ -3,7 +3,7 @@ name: "Deploy Exams Application"
 on:
   push:
      tags:
-        - "v*" 
+        - "exams/v*" 
            
 env:
    PROJECT_PATH: Exams/Exams.csproj    
