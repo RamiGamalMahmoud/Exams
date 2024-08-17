@@ -1,39 +1,64 @@
-name: "Deploy Exams Application"
+name: Build and Release Exams Application  
 
-on:
-  push:
-     tags:
-        - "exams/v*" 
-           
-env:
-   PROJECT_PATH: Exams/Exams.csproj    
-    
-jobs:
-  deploy:
-     runs-on: windows-latest
-     steps:
-        - uses: actions/checkout@v3
-     
-        - uses: actions/setup-dotnet@v3
-          with: 
-            dotnet-version: 8.0.x
+on:  
+  push:  
+    branches:  
+      - main # Change this to the branch you use for releases, if different  
+  release:  
+    types:  
+      - created  
+env: 
+  PROJECT_PATH: Exams/Exams.csproj
+  SOLUTION_NAME: Exams.sln
 
-        - run: dotnet restore ${{ env.PROJECT_PATH }}
-  
-        - run: dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore
-  
-        - run: dotnet publish ${{ env.PROJECT_PATH }} -c Release --self-contained -r win-x64 -p:PublishSingleFile=true
-  
-        - uses: actions/create-release@v1
-          id: create_release
-          env: 
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          with: 
-            tag_name: ${{ github.ref }} 
-            release_name: ${{ github.ref }}
+jobs:  
+  build:  
+    runs-on: windows-latest  
 
-        - uses: csexton/release-asset-action@v2
-          with:
-            github-token: ${{ secrets.GITHUB_TOKEN }}
-            pattern: Exams/bin/Release/net8.0-windows/win-x64/publish/Exams.exe
-            release-url: ${{ steps.create_release.outputs.upload_url }}
+    steps:  
+      - name: Checkout code  
+        uses: actions/checkout@v2  
+
+      - name: Setup .NET  
+        uses: actions/setup-dotnet@v2  
+        with:  
+          dotnet-version: '8.0.x' # Specify the version of .NET you're using  
+
+      - name: Restore dependencies  
+        run: dotnet restore ${{ env.SOLUTION_NAME }} # Specify your solution or project file  
+
+      - name: Build  
+        run: dotnet build ${{ env.PROJECT_PATH }} --configuration Release --no-restore # Configure for your project  
+
+      - name: Run tests  
+        run: dotnet test ${{ env.PROJECT_PATH }} --configuration Release --no-build --verbosity normal  
+
+      - name: Publish  
+        run: dotnet publish ${{ env.PROJECT_PATH }} --configuration Release --output ./publish  
+
+  release:  
+    runs-on: ubuntu-latest  
+    needs: build  
+    steps:  
+      - name: Checkout code  
+        uses: actions/checkout@v2  
+
+      - name: Create Release  
+        id: create_release  
+        uses: softprops/action-gh-release@v1  
+        with:  
+          tag_name: ${{ github.ref }}  
+          release_name: Release ${{ github.ref }}  
+          body: |  
+            Release notes for version ${{ github.ref }}.  
+        env:  
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
+
+      - name: Upload Release Asset  
+        uses: softprops/action-gh-release@v1  
+        with:  
+          tag_name: ${{ github.ref }}  
+          asset_path: ./release/Exams.exe # Adjust according to your output  
+          asset_name: Exams-v${{ github.ref }}.exe # Change this based on your needs  
+        env:  
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
