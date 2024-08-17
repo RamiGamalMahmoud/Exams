@@ -2,9 +2,8 @@ name: .NET Core Desktop
 
 on:
   push:
-    branches: [ "master" ]
     tags:
-      - "class-commands/v*"
+      - "exams/v*"
 
 env:
   PROJECT_PATH: Exams/Exams.csproj
