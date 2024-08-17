@@ -2,8 +2,6 @@ name: Build and Release Exams Application
 
 on:  
   push:  
-    branches:  
-      - master # Change this to the branch you use for releases, if different  
     tags:
         - "v*"
   release:  
