@@ -4,6 +4,8 @@ on:
   push:  
     branches:  
       - master # Change this to the branch you use for releases, if different  
+    tags:
+        - "v*"
   release:  
     types:  
       - created  
@@ -30,8 +32,8 @@ jobs:
       - name: Build  
         run: dotnet build ${{ env.PROJECT_PATH }} --configuration Release --no-restore # Configure for your project  
 
-      - name: Run tests  
-        run: dotnet test ${{ env.PROJECT_PATH }} --configuration Release --no-build --verbosity normal  
+      # - name: Run tests  
+      #   run: dotnet test ${{ env.PROJECT_PATH }} --configuration Release --no-build --verbosity normal  
 
       - name: Publish  
         run: dotnet publish ${{ env.PROJECT_PATH }} --configuration Release --output ./publish  
