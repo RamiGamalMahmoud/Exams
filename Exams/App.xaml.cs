@@ -44,13 +44,13 @@ namespace Exams
 
         protected override async void OnStartup(StartupEventArgs e)
         {
-            var serverProvider = new Dotmim.Sync.PostgreSql.NpgsqlSyncProvider("User Id=postgres.ptwapmvfpausfvhdvhng;Password=YGtJQKD5uJHJcT6I;Server=aws-0-ap-south-1.pooler.supabase.com;Port=5432;Database=postgres;");
-            var clientProvider = new Dotmim.Sync.Sqlite.SqliteSyncProvider("Data Source=data.db;");
+            //var serverProvider = new Dotmim.Sync.PostgreSql.NpgsqlSyncProvider("User Id=postgres.ptwapmvfpausfvhdvhng;Password=YGtJQKD5uJHJcT6I;Server=aws-0-ap-south-1.pooler.supabase.com;Port=5432;Database=postgres;");
+            //var clientProvider = new Dotmim.Sync.Sqlite.SqliteSyncProvider("Data Source=data.db;");
 
-            var setup = new SyncSetup("categories", "questions");
+            //var setup = new SyncSetup("categories", "questions");
 
-            var agent = new SyncAgent(clientProvider, serverProvider);
-            var syncContext = await agent.SynchronizeAsync(setup);
+            //var agent = new SyncAgent(clientProvider, serverProvider);
+            //var syncContext = await agent.SynchronizeAsync(setup);
 
             //AppDbContextFactory factory = new AppDbContextFactory("User Id=postgres.ptwapmvfpausfvhdvhng;Password=YGtJQKD5uJHJcT6I;Server=aws-0-ap-south-1.pooler.supabase.com;Port=5432;Database=postgres;");
             //AppDbContext context = factory.CreateDbContext();
