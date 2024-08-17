@@ -7,7 +7,7 @@ on:
 
 env:
   PROJECT_PATH: Exams/Exams.csproj
-  Solution_Name: AinAlAtaaFoundation.sln    
+  Solution_Name: Exams.sln    
 
 jobs:
   deploy:
