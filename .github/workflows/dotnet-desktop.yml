@@ -1,7 +1,8 @@
-name: "Deploy Class Commands"
+name: .NET Core Desktop
 
 on:
   push:
+    branches: [ "master" ]
     tags:
       - "class-commands/v*"
 
