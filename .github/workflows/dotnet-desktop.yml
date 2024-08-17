@@ -3,7 +3,7 @@ name: Build and Release Exams Application
 on:  
   push:  
     branches:  
-      - main # Change this to the branch you use for releases, if different  
+      - master # Change this to the branch you use for releases, if different  
   release:  
     types:  
       - created  
